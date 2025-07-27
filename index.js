@@ -50,6 +50,24 @@ app.post('/users', async (req, res) => {
   }
 });
 
+// Movie modeli
+const Movie = mongoose.model('Movie', new mongoose.Schema({}, { strict: false }), 'movies');
+
+// GET: /movies
+app.get('/movies', async (req, res) => {
+  console.log("🎬 [GET] /movies endpoint çağrıldı");
+
+  try {
+    const movies = await Movie.find().limit(20); // Limit koy, yoksa yüzlerce veri çeker
+    console.log(`🎥 ${movies.length} film gönderildi`);
+    res.json(movies);
+  } catch (err) {
+    console.error("❌ Filmleri çekerken hata:", err);
+    res.status(500).json({ error: 'Sunucu hatası' });
+  }
+});
+
+
 // Server başlat
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
