@@ -98,8 +98,8 @@ app.get('/comments/:movieId', async (req, res) => {
   console.log(`💬 [GET] /comments/${req.params.movieId} çağrıldı`);
 
   try {
-    const comments = await Comment.find({ movie_id: req.params.movieId });
-    console.log(`📤 ${comments.length} yorum gönderildi`);
+const { ObjectId } = require('mongodb');
+const comments = await Comment.find({ movie_id: new ObjectId(req.params.movieId) });    console.log(`📤 ${comments.length} yorum gönderildi`);
     res.json(comments);
   } catch (err) {
     console.error("❌ Yorumları çekerken hata:", err);
