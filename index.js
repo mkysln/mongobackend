@@ -97,14 +97,16 @@ const Comment = mongoose.model(
 app.get('/comments/:movieId', async (req, res) => {
   console.log(`💬 [GET] /comments/${req.params.movieId} çağrıldı`);
 
-  try {
 const { ObjectId } = require('mongodb');
-const comments = await Comment.find({ movie_id: new ObjectId(req.params.movieId) });    console.log(`📤 ${comments.length} yorum gönderildi`);
-    res.json(comments);
-  } catch (err) {
-    console.error("❌ Yorumları çekerken hata:", err);
-    res.status(500).json({ error: 'Sunucu hatası' });
-  }
+
+try {
+  const comments = await Comment.find({ movie_id: new ObjectId(req.params.movieId) });
+  console.log(`📤 ${comments.length} yorum gönderildi`);
+  res.json(comments);
+} catch (err) {
+  console.error("❌ Yorumları çekerken hata:", err);
+}
+
 });
 // Server başlat
 const PORT = process.env.PORT || 3000;
