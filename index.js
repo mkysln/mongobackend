@@ -67,6 +67,24 @@ app.get('/movies', async (req, res) => {
   }
 });
 
+// GET: /movies/:id
+app.get('/movies/:id', async (req, res) => {
+  console.log(`🎯 [GET] /movies/${req.params.id} endpoint çağrıldı`);
+
+  try {
+    const movie = await Movie.findById(req.params.id);
+    if (!movie) {
+      console.log("⚠️ Film bulunamadı");
+      return res.status(404).json({ error: 'Film bulunamadı' });
+    }
+
+    console.log(`🎥 Film bulundu: ${movie._id}`);
+    res.json(movie);
+  } catch (err) {
+    console.error("❌ Film çekme hatası:", err);
+    res.status(500).json({ error: 'Sunucu hatası' });
+  }
+});
 
 // Server başlat
 const PORT = process.env.PORT || 3000;
